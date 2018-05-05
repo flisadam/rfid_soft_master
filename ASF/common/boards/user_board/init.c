@@ -59,7 +59,7 @@ void SPI_init(void)
 	PORTC.DIRCLR=	PIN6_bm;			//input MISO
 	PORTC.PIN6CTRL   =    PORT_OPC_PULLUP_gc;
 	PORTC.OUTCLR=	PIN7_bm| PIN5_bm | PIN4_bm; // initialization on state low
-	SPIC.CTRL	= SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_0_gc | SPI_PRESCALER_DIV128_gc ; // config of SPI MODE(enable, master, falling edge, 4x prescaller)
+	SPIC.CTRL	= SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_3_gc | SPI_PRESCALER_DIV128_gc ; // config of SPI MODE(enable, master, falling edge, 4x prescaller)
 	SPIC.INTCTRL = SPI_INTLVL_LO_gc;
 	PMIC_CTRL	=	PMIC_LOLVLEN_bm; // high interrupt priority
 	
@@ -94,7 +94,7 @@ void Timer_init(void)
 	  PMIC.CTRL         =    PMIC_LOLVLEN_bm;            // odblokowanie przerwañ o priorytecie LO
     TCC0.CTRLB        =    TC_WGMODE_NORMAL_gc;        // tryb normalny
     TCC0.CTRLA        =    TC_CLKSEL_DIV1024_gc;       // ustawienie preskalera i uruchomienie timera
-	//TCC0.PER		=	65000;
+	TCC0.PER		=	500000;
 	
 }
 

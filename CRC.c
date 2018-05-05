@@ -57,7 +57,7 @@ void SendPkt( const char * txt)
 		for (int i=0;i<size;i++)
 		{
 		
-			if (i!=6)// pomijamy 6 bo algorytm  wrzuca niepotrzebne 0 do pakietu
+			//if (i!=6)// pomijamy 6 bo algorytm  wrzuca niepotrzebne 0 do pakietu
 			if(*(word+i) >15)
 			printf("%X",*(word+i)); //FF
 			else
