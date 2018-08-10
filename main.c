@@ -90,10 +90,15 @@ _delay_ms(5000);
 				//if (RFID_ID[0]!=start_value) 
 				if (RFID_ID[0] !=0 && RFID_ID[1] != 0 && RFID_ID[2]!=0)
 				{
+					
 					usb_printf_hex(&RFID_ID,sizeof(RFID_ID));//send RFID_tag
 					usb_printf_hex(&slave_nr,1);// send antenna_number
 					 printf("\x1b""[40D");
 					 printf("\n");
+					 if (slave_nr<5) PORTD.OUT ^=(1<<slave_nr-1);
+					 else PORTE.OUT ^=(1<<slave_nr-5);
+					 
+					// PORTD.OUT=0b11111111;
 				}
 
 			//	printf ("next slave    nr %d",slave_nr);
@@ -104,9 +109,9 @@ _delay_ms(5000);
 				else PORTA.OUTSET = SLAVE(slave_nr-1);//odznaczamy poprzedniego slava
 				}
 			//slave_nr++;//nastepny slavy
-			if (slave_nr==8)//jesli ostatni to zacyznamy od pocz¹tku
+			if (slave_nr==8)//jesli ostatni to zaczynamy od pocz¹tku
 			{
-				slave_nr=0;//powinno byc 0
+				slave_nr=0;
 			}
 			
 
@@ -115,12 +120,11 @@ _delay_ms(5000);
 
 	}
 }
-ISR(SPIC_INT_vect) {//tranmsija zakonczona-odczytywanie danych i incjalizacja nastepnej transmisji
+ISR(SPIC_INT_vect) {//tranmsija zakonczona-odczytywanie danych i inicjalizacja nastêpnej transmisji
 	///normalna transmisja
 	
 _delay_us(10);
 
-//PORTA.OUTSET= SLAVE(slave_nr);
 asm volatile ("nop");
 asm volatile ("nop");
 asm volatile ("nop");
@@ -128,9 +132,7 @@ asm volatile ("nop");
 if (SPIC.DATA!=9)
 	{
 			RFID_ID[SPI_timer] = SPIC.DATA;//zapisujemy odebrany rejestr do zmiennej
-			//ltoa(RFID_ID[SPI_timer],string,16);
 			SPI_timer++;
-			PORTD.OUTTGL    =    PIN2_bm;
 	}
 
 }
@@ -138,7 +140,7 @@ if (SPIC.DATA!=9)
 
 ISR(TCC0_OVF_vect) {
 	SPI_flag=1;                                // przerwanie przepe³nienia TCC0
-	PORTD.OUTTGL    =    PIN3_bm;
+	//PORTD.OUTTGL    =    PIN3_bm;
 }
 
 

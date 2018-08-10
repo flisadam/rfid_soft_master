@@ -94,7 +94,7 @@ void Timer_init(void)
 	  PMIC.CTRL         =    PMIC_LOLVLEN_bm;            // odblokowanie przerwañ o priorytecie LO
     TCC0.CTRLB        =    TC_WGMODE_NORMAL_gc;        // tryb normalny
     TCC0.CTRLA        =    TC_CLKSEL_DIV1024_gc;       // ustawienie preskalera i uruchomienie timera
-	TCC0.PER		=	500000;
+	TCC0.PER		=	500;
 	
 }
 
